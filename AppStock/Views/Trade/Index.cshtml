@@ -1,0 +1,86 @@
+﻿@model AppStock.Models.ViewModle.StockTrade
+
+@{
+    ViewData["Title"] = "Stocks Dashboard";
+}
+
+<div class="card shadow-lg border-0 rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0 text-primary">
+            <i class="fas fa-chart-line"></i> Stock Market Dashboard
+        </h3>
+        <span class="badge bg-light text-dark fw-semibold px-3 py-2 shadow-sm">
+            Updated: @DateTime.Now.ToString("HH:mm:ss")
+        </span>
+    </div>
+
+    <!-- Search Form -->
+    <div class="bg-light rounded-3 p-4 mb-4 border">
+        <form method="post" asp-action="Search" class="row g-3">
+            <div class="col-md-9">
+                <label for="stockDropdown" class="form-label fw-semibold">
+                    <i class="fas fa-search me-1"></i> Choose Stock
+                </label>
+                <select id="stockDropdown" name="stockSymbol" class="form-select mb-2">
+                    <option value="" disabled selected>Select a stock...</option>
+
+                    <optgroup label="🍎 Tech Giants">
+                        <option value="AAPL" selected="@(Model?.StockSymbol == "AAPL")">Apple Inc. (AAPL)</option>
+                        <option value="GOOGL" selected="@(Model?.StockSymbol == "GOOGL")">Alphabet Inc. (GOOGL)</option>
+                        <option value="MSFT" selected="@(Model?.StockSymbol == "MSFT")">Microsoft Corporation (MSFT)</option>
+                        <option value="AMZN" selected="@(Model?.StockSymbol == "AMZN")">Amazon.com, Inc. (AMZN)</option>
+                        <option value="META" selected="@(Model?.StockSymbol == "META")">Meta Inc. (META)</option>
+                        <option value="TSLA" selected="@(Model?.StockSymbol == "TSLA")">Tesla Motors (TSLA)</option>
+                    </optgroup>
+
+                    <optgroup label="🏦 Financial Services">
+                        <option value="GS" selected="@(Model?.StockSymbol == "GS")">The Goldman Sachs Group, Inc. (GS)</option>
+                    </optgroup>
+
+                    <optgroup label="📈 Market Indices">
+                        <option value="DJIA" selected="@(Model?.StockSymbol == "DJIA")">The Dow Jones Industrial Average (DJIA)</option>
+                        <option value="SPX" selected="@(Model?.StockSymbol == "SPX")">The S&P 500 Index (SPX)</option>
+                        <option value="COMP" selected="@(Model?.StockSymbol == "COMP")">The NASDAQ Composite Index (COMP)</option>
+                    </optgroup>
+                </select>
+
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm">
+                    <i class="fas fa-search me-2"></i> Analyze
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Stock Display -->
+    <div class="p-4 bg-white rounded-3 shadow-sm border">
+        @if (!string.IsNullOrEmpty(Model?.StockName))
+        {
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h4 class="fw-bold mb-1 text-dark">
+                        @Model.StockName 
+                        <span class="badge bg-primary ms-2">@Model.StockSymbol</span>
+                    </h4>
+                    <p class="text-muted small mb-3">Live Market Data</p>
+                </div>
+                <button class="btn btn-outline-warning rounded-circle" title="Add to favorites">
+                    <i class="fas fa-star"></i>
+                </button>
+            </div>
+
+            <h1 class="display-4 fw-bold text-success">
+                $@Model.Price
+            </h1>
+        }
+        else
+        {
+            <div class="text-center text-muted py-4">
+                <i class="fas fa-chart-line fa-3x mb-3"></i>
+                <h5>No stock selected</h5>
+                <p>Select a stock above and press <b>Analyze</b> to view details.</p>
+            </div>
+        }
+    </div>
+</div>
